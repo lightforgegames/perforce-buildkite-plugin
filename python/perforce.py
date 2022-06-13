@@ -137,6 +137,7 @@ class P4Repo:
         client = self.perforce.fetch_client(clientname)
         patched = self._read_patched()
         if patched:
+            self.perforce.save_client(client)
             self.perforce.run_clean(patched)
             os.remove(self.patchfile)
 
