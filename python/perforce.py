@@ -348,10 +348,10 @@ class P4Repo:
 
         cmds = []
         for depotfile, localfile in depot_to_local.items():
-            if os.path.isfile(localfile):
-                os.chmod(localfile, stat.S_IWRITE)
-                os.unlink(localfile)
             if any(depotfile.startswith(prefix) for prefix in sync_prefixes):
+                if os.path.isfile(localfile):
+                    os.chmod(localfile, stat.S_IWRITE)
+                    os.unlink(localfile)
                 cmds.append(('print', '-o', localfile, '%s@=%s' % (depotfile, changelist)))
                 synced_patched_files.append(localfile)
             else:
