@@ -338,12 +338,11 @@ class P4Repo:
 
         self.perforce.logger.info("Depot To Local: " + json.dumps(depot_to_local, indent=4))
 
-        # Flag these files as modified
-        self._write_patched(list(depot_to_local.values()))
-
         # Turn sync spec info a prefix to filter out unwanted files
         # e.g. //my-depot/dir/... => //my-depot/dir/
         sync_prefixes = [prefix.rstrip('.') for prefix in self.sync_paths]
+
+        synced_patched_files = []
 
         self.perforce.logger.info("len(depotfiles): %s, len(whereinfo): %d, len(depot_to_local): %d" % (len(depotfiles), len(whereinfo), len(depot_to_local)))
 
@@ -354,8 +353,12 @@ class P4Repo:
                 os.unlink(localfile)
             if any(depotfile.startswith(prefix) for prefix in sync_prefixes):
                 cmds.append(('print', '-o', localfile, '%s@=%s' % (depotfile, changelist)))
+                synced_patched_files.append(localfile)
             else:
                 self.perforce.logger.info('file doesnt have matching prefix: ' + depotfile)
+
+        # Flag synced shelved files as modified
+        self._write_patched(synced_patched_files)
 
         self.run_parallel_cmds(cmds)
 
