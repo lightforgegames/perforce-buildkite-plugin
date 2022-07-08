@@ -361,7 +361,7 @@ class P4Repo:
         # Flag synced shelved files as modified
         self._write_patched(synced_patched_files)
 
-        self.run_parallel_cmds(cmds, max_parallel=self.parallel)
+        self.run_parallel_cmds(cmds, max_parallel=int(self.parallel))
 
 
 class SyncOutput(OutputHandler):
