@@ -306,8 +306,15 @@ class P4Repo:
             perforce.run(*args)
 
         from concurrent.futures import ThreadPoolExecutor
+        results = []
         with ThreadPoolExecutor(max_workers=max_parallel) as executor:
-            executor.map(run, cmds)
+            for cmd in cmds:
+                results.append(executor.submit(run, cmd))
+        for result in results:
+            try:
+                result.result()
+            except Exception as e:
+                print("exception!", e)
 
     def p4print_unshelve(self, changelist):
         """Unshelve a pending change by p4printing the contents into a file"""
@@ -354,7 +361,7 @@ class P4Repo:
         # Flag synced shelved files as modified
         self._write_patched(synced_patched_files)
 
-        self.run_parallel_cmds(cmds)
+        self.run_parallel_cmds(cmds, max_parallel=self.parallel)
 
 
 class SyncOutput(OutputHandler):
