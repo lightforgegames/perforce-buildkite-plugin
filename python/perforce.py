@@ -314,7 +314,7 @@ class P4Repo:
             try:
                 result.result()
             except Exception as e:
-                print("exception!", e)
+                self.perforce.logger.error("exception!", e)
 
     def p4print_unshelve(self, changelist):
         """Unshelve a pending change by p4printing the contents into a file"""
