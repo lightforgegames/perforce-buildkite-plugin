@@ -20,8 +20,6 @@ configuration:
       type: string
     share_workspace:
       type: bool
-    stream:
-      type: string
     stream_switching:
       type: bool
     sync:
