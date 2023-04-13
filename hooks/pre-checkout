@@ -5,7 +5,7 @@ echo "Starting pre-checkout hook"
 echo "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}"
 
 # Allow sharing of perforce client workspaces for the same stream between pipelines
-if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" == "yes" ]]; then
+if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" = "yes" ]]; then
   echo "Workspace sharing enabled"
 
   STREAM="${BUILDKITE_BRANCH}"
@@ -17,7 +17,7 @@ if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" == "yes" ]]; then
     echo "Error: You cannot share stream workspaces when running more than one agent" >&2
     exit 1
   fi
-  if [[ "${BUILDKITE_PLUGIN_PERFORCE_STREAM_SWITCHING}" == "yes" ]]; then
+  if [[ "${BUILDKITE_PLUGIN_PERFORCE_STREAM_SWITCHING}" = "yes" ]]; then
     echo "Stream switching enabled"
     # Sanitize '//depot/stream-name' to 'depot'
     SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('/')[0]);")
