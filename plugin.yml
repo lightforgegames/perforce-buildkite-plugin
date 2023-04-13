@@ -1,7 +1,7 @@
 ---
 name: Perforce
 description: Checks out a perforce repository instead of git.
-author: https://github.com/ca-johnson
+author: https://github.com/inflexiongames
 configuration:
   properties:
     client_options:
@@ -19,9 +19,9 @@ configuration:
     parallel:
       type: string
     share_workspace:
-      type: bool
+      type: boolean
     stream_switching:
-      type: bool
+      type: boolean
     sync:
       type: array
     fingerprint:

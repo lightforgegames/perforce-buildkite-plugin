@@ -33,13 +33,10 @@ def get_env():
 def list_from_env_array(var, substitutions: Dict[str, Callable] = None):
     """Read list of values from either VAR or VAR_0, VAR_1 etc"""
     result = os.environ.get(var, [])
-    print(f"Getting list for {var}")
     if result:
         processed_elem = result
         if substitutions is not None:
-            print(f"Replacing with replacers {substitutions}")
             for replacement, replacer in substitutions.items():
-                print(f"Replacing {replacement} with {replacer()}")
                 processed_elem = processed_elem.replace(replacement, replacer())
         return [processed_elem] # convert single value to list
 
@@ -50,12 +47,8 @@ def list_from_env_array(var, substitutions: Dict[str, Callable] = None):
             break
         processed_elem = elem
         if substitutions is not None:
-            print(f"Replacing with replacers {substitutions}")
             for replacement, replacer in substitutions.items():
-                print(f"Replacing {replacement} with {replacer()}")
                 processed_elem = processed_elem.replace(replacement, replacer())
-        else:
-            print(f"No replacements for {var}")
         result.append(processed_elem)
         i += 1
 
@@ -66,11 +59,9 @@ def get_config():
     conf = {}
     conf['view'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_VIEW') or '//... ...'
     conf['stream'] = get_stream_from_buildkite()
-    print(f"Detected stream: {conf['stream']}")
     conf['sync'] = list_from_env_array('BUILDKITE_PLUGIN_PERFORCE_SYNC', {
         "<stream>": get_stream_from_buildkite
     })
-    print(f"Processed sync: {conf['sync']}")
     conf['parallel'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_PARALLEL') or 1
     conf['client_options'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_CLIENT_OPTIONS')
     conf['client_type'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_CLIENT_TYPE')
