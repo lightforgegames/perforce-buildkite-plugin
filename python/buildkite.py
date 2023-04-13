@@ -46,6 +46,8 @@ def list_from_env_array(var, substitutions: Dict[str, callable] = None):
             for replacement, replacer in substitutions:
                 print(f"Replacing {replacement} with {replacer()}")
                 processed_elem = processed_elem.replace(replacement, replacer())
+        else:
+            print(f"No replacements for {var}")
         result.append(processed_elem)
         i += 1
 
