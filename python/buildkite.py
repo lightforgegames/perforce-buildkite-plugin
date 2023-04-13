@@ -55,6 +55,7 @@ def get_config():
     conf = {}
     conf['view'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_VIEW') or '//... ...'
     conf['stream'] = get_stream_from_buildkite()
+    print(f"Detected stream: {get_stream_from_buildkite()}")
     conf['sync'] = list_from_env_array('BUILDKITE_PLUGIN_PERFORCE_SYNC', {
         "<stream>": get_stream_from_buildkite
     })
