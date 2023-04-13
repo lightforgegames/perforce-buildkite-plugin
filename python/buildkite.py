@@ -33,6 +33,7 @@ def get_env():
 def list_from_env_array(var, substitutions: Dict[str, callable] = None):
     """Read list of values from either VAR or VAR_0, VAR_1 etc"""
     result = os.environ.get(var, [])
+    print(f"Getting list for {var}")
     if result:
         processed_elem = result
         if substitutions is not None:
