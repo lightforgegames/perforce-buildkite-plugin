@@ -7,7 +7,7 @@ import sys
 import subprocess
 import re
 from datetime import datetime
-from typing import Dict, Optional, Tuple
+from typing import Callable, Dict, Optional, Tuple
 
 __ACCESS_TOKEN__ = os.environ['BUILDKITE_AGENT_ACCESS_TOKEN']
 # https://github.com/buildkite/cli/blob/e8aac4bedf34cd8084a3ae7a4ab7812c611d0310/local/run.go#L403
@@ -30,7 +30,7 @@ def get_env():
             env[p4var] = plugin_value
     return env
 
-def list_from_env_array(var, substitutions: Dict[str, callable] = None):
+def list_from_env_array(var, substitutions: Dict[str, Callable] = None):
     """Read list of values from either VAR or VAR_0, VAR_1 etc"""
     result = os.environ.get(var, [])
     print(f"Getting list for {var}")
@@ -38,7 +38,7 @@ def list_from_env_array(var, substitutions: Dict[str, callable] = None):
         processed_elem = result
         if substitutions is not None:
             print(f"Replacing with replacers {substitutions}")
-            for replacement, replacer in substitutions:
+            for replacement, replacer in substitutions.items():
                 print(f"Replacing {replacement} with {replacer()}")
                 processed_elem = processed_elem.replace(replacement, replacer())
         return [processed_elem] # convert single value to list
@@ -51,7 +51,7 @@ def list_from_env_array(var, substitutions: Dict[str, callable] = None):
         processed_elem = elem
         if substitutions is not None:
             print(f"Replacing with replacers {substitutions}")
-            for replacement, replacer in substitutions:
+            for replacement, replacer in substitutions.items():
                 print(f"Replacing {replacement} with {replacer()}")
                 processed_elem = processed_elem.replace(replacement, replacer())
         else:
@@ -66,7 +66,7 @@ def get_config():
     conf = {}
     conf['view'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_VIEW') or '//... ...'
     conf['stream'] = get_stream_from_buildkite()
-    print(f"Detected stream: {get_stream_from_buildkite()}")
+    print(f"Detected stream: {conf['stream']}")
     conf['sync'] = list_from_env_array('BUILDKITE_PLUGIN_PERFORCE_SYNC', {
         "<stream>": get_stream_from_buildkite
     })
