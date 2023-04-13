@@ -30,7 +30,7 @@ def get_env():
             env[p4var] = plugin_value
     return env
 
-def list_from_env_array(var, substitutions: Dict[str, callable]):
+def list_from_env_array(var, substitutions: Dict[str, callable] = None):
     """Read list of values from either VAR or VAR_0, VAR_1 etc"""
     result = os.environ.get(var, [])
     if result:
@@ -42,8 +42,9 @@ def list_from_env_array(var, substitutions: Dict[str, callable]):
         if not elem:
             break
         processed_elem = elem
-        for replacement, replacer in substitutions:
-            processed_elem = processed_elem.replace(replacement, replacer())
+        if substitutions is not None:
+            for replacement, replacer in substitutions:
+                processed_elem = processed_elem.replace(replacement, replacer())
         result.append(processed_elem)
         i += 1
 
