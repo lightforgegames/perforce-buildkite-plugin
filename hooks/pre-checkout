@@ -5,7 +5,7 @@ set -eo pipefail
 if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" == true ]]; then
   echo "Workspace sharing enabled"
 
-  STREAM="${BUILDKITE_PLUGIN_PERFORCE_STREAM}"
+  STREAM="${BUILDKITE_BRANCH}"
   if [[ -z "${STREAM}" ]]; then
     echo "Error: You must use stream workspaces to enable shared workspaces" >&2
     exit 1
@@ -17,10 +17,10 @@ if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" == true ]]; then
   if [[ "${BUILDKITE_PLUGIN_PERFORCE_STREAM_SWITCHING}" == true ]]; then
     echo "Stream switching enabled"
     # Sanitize '//depot/stream-name' to 'depot'
-    SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('/')[2]);")
+    SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('/')[0]);")
   else # Create a directory per-stream
     # Sanitize '//depot/stream-name' to '__depot_stream-name'
-    SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().replace('/', '_'));")
+    SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('!')[0].replace('/', '_'));")
   fi
   # Instead of builds/<agent_number>/<pipeline>, checkout to builds/<stream_name>
   PERFORCE_CHECKOUT_PATH="${BUILDKITE_BUILD_CHECKOUT_PATH}/../../${SANITIZED_STREAM}"
