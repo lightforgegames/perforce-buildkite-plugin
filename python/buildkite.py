@@ -70,6 +70,7 @@ def get_config():
     conf['sync'] = list_from_env_array('BUILDKITE_PLUGIN_PERFORCE_SYNC', {
         "<stream>": get_stream_from_buildkite
     })
+    print(f"Processed sync: {conf['sync']}")
     conf['parallel'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_PARALLEL') or 1
     conf['client_options'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_CLIENT_OPTIONS')
     conf['client_type'] = os.environ.get('BUILDKITE_PLUGIN_PERFORCE_CLIENT_TYPE')
