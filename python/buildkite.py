@@ -34,7 +34,13 @@ def list_from_env_array(var, substitutions: Dict[str, callable] = None):
     """Read list of values from either VAR or VAR_0, VAR_1 etc"""
     result = os.environ.get(var, [])
     if result:
-        return [result] # convert single value to list
+        processed_elem = result
+        if substitutions is not None:
+            print(f"Replacing with replacers {substitutions}")
+            for replacement, replacer in substitutions:
+                print(f"Replacing {replacement} with {replacer()}")
+                processed_elem = processed_elem.replace(replacement, replacer())
+        return [processed_elem] # convert single value to list
 
     i = 0
     while True:
