@@ -107,6 +107,7 @@ def set_environment_var(key, value):
         return False
 
     subprocess.call(['buildkite-agent', 'env', 'set', f'"{key}={value}"'])
+    os.environ[key] = value
     return True
 
 @dataclass
