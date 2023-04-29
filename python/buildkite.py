@@ -106,7 +106,6 @@ def set_environment_var(key, value):
         # Cannot set env vars outside of buildkite context, including `bk local run`
         return False
 
-    #subprocess.call(['buildkite-agent', 'env', 'set', f'"{key}={value}"'])
     os.environ[key] = value
     return True
 
