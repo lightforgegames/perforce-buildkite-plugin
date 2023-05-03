@@ -135,7 +135,16 @@ class P4Repo:
 
         client = self.perforce.fetch_client(clientname)
 
-        # Set root, stream, and view from supplied values
+        # Set root, stream, and view from supplied values. Detect if we need to run `p4 switch`.
+        if self.stream and client["Stream"] != self.stream:
+            try:
+                self.perforce.logger.info("p4config last stream was %s, switching to %s" % client["Stream"] self.stream)
+                self.perforce.run_switch('-Rn', "--no-sync", self.stream)
+                
+                client = self.perforce.fetch_client(clientname)
+            except P4Exception as ex:
+                self.perforce.logger.error("%s" % ex)
+        
         if self.root:
             client._root = self.root
         if self.stream:
