@@ -30,3 +30,5 @@ configuration:
       type: string
     view:
       type: string
+    workspace_name:
+      type: string
