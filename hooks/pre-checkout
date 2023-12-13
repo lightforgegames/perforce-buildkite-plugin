@@ -24,7 +24,7 @@ if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" = "yes" ]]; then
     SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('!')[0].replace('/', '_'));")
   fi
 
-  if [ -z "${P4PASSWD}" ]
+  if [ -z "${P4PASSWD}" ]; then
     echo $P4PASSWD | p4 login
   fi
 
