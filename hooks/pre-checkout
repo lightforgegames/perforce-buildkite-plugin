@@ -27,5 +27,6 @@ fi
 
 if [ -n "${P4PASSWD}" ]; then
   echo "Logging into P4 early"
+  p4 trust -y
   echo $P4PASSWD | p4 login
 fi
