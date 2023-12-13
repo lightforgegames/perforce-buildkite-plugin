@@ -74,7 +74,7 @@ class P4Repo:
     def _get_clientname(self):
         """Get unique clientname for this host and location on disk"""
         if "PERFORCE_PLUGIN_WORKSPACE_NAME" in os.environ:
-            clientname = os.environ.get("PERFORCE_PLUGIN_WORKSPACE_NAME")
+            clientname = os.environ.get("BUILDKITE_PLUGIN_PERFORCE_WORKSPACE_NAME")
         else:
             clientname = 'bk-p4-%s-%s' % (os.environ.get('BUILDKITE_AGENT_NAME', socket.gethostname()), os.path.basename(self.root))
         return re.sub(r'\W', '-', clientname)
