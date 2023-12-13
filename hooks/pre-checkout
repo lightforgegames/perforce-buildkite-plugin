@@ -23,9 +23,9 @@ if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" = "yes" ]]; then
     # Sanitize '//depot/stream-name' to '__depot_stream-name'
     SANITIZED_STREAM=$(echo $STREAM | python -c "import sys; print(sys.stdin.read().split('!')[0].replace('/', '_'));")
   fi
+fi
 
-  if [ -z "${P4PASSWD}" ]; then
-    echo $P4PASSWD | p4 login
-  fi
-
+if [ -n "${P4PASSWD}" ]; then
+  echo "Logging into P4 early"
+  echo $P4PASSWD | p4 login
 fi
