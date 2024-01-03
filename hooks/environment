@@ -1,2 +1,7 @@
 # Allow steps to pick up perforce configuration used by the plugin
 export P4CONFIG=p4config
+
+if [ -n "$BUILDKITE_REPO" ]; then
+    export P4PORT="$BUILDKITE_REPO"
+    echo "P4PORT set to $P4PORT"
+fi
