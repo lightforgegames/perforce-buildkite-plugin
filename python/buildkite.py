@@ -119,7 +119,7 @@ def get_stream_and_user_changelist() -> StreamAndShelf:
     """Extract the stream and user changelist (if applicable) from the Buildkite Branch"""
     branch = os.environ.get('BUILDKITE_BRANCH', '')
 
-    stream_shelf_pattern = r"(?P<stream>[A-z_0-9-]+\/[A-z_0-9-]+)(?:!(?P<shelf>[0-9]+))?"
+    stream_shelf_pattern = r"//(?P<stream>[A-z_0-9-]+\/[A-z_0-9-]+)(?:!(?P<shelf>[0-9]+))?"
     matches_pattern = re.match(stream_shelf_pattern, branch)
 
     stream = ""
