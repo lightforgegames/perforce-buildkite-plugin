@@ -32,6 +32,7 @@ def main():
         user_changelist or repo.head_at_revision(revision)
     )
     set_build_info(revision, description)
+    set_lfg_build_tag(revision)
 
 
 if __name__ == "__main__":

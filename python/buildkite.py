@@ -165,12 +165,15 @@ def set_build_revision(revision):
     """Set the p4 revision for following jobs in this build"""
     set_metadata(__REVISION_METADATA__, revision)
     set_metadata(__REVISION_METADATA_DEPRECATED__, revision)
-    
-    revision = revision.lstrip('@#')
-    escaped_build_tag = os.environ.get('BUILDKITE_BRANCH', '').replace('/', '+') + '-CL-' + revision
-    set_metadata("lightforge-build-tag", escaped_build_tag)
 
 def set_build_info(revision, description):
     """Set the description and commit number in the UI for this build by mimicking a git repo"""
     revision = revision.lstrip('@#') # revision must look like a git sha for buildkite to accept it
     set_metadata('buildkite:git:commit', 'commit %s\n\n\t%s' % (revision, description))
+
+def set_lfg_build_tag(revision):
+    """Sets the lfg build tag which is based on the format used in Unreal.
+    Sets CL 12345 on //depot/main to ++depot+main-CL-12345"""
+    revision = revision.lstrip('@#')
+    escaped_build_tag = os.environ.get('BUILDKITE_BRANCH', '').replace('/', '+') + '-CL-' + revision
+    set_metadata("lightforge-build-tag", escaped_build_tag)
