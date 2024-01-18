@@ -7,7 +7,7 @@ import subprocess
 
 from perforce import P4Repo
 from buildkite import (get_env, get_config, get_build_revision, set_build_revision,
-    get_users_changelist, set_build_info)
+    get_users_changelist, set_build_info, set_lfg_build_tag)
 
 def main():
     """Main"""
