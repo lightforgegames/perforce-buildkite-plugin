@@ -1,7 +1,7 @@
 ---
 name: Perforce
 description: Checks out a perforce repository instead of git.
-author: https://github.com/inflexiongames
+author: https://github.com/lightforgegames
 requirements:
   - p4
 configuration:

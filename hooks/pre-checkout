@@ -3,7 +3,7 @@ set -eo pipefail
 
 
 # Allow sharing of perforce client workspaces for the same stream between pipelines
-if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" = "yes" ]]; then
+if [[ "${BUILDKITE_PLUGIN_PERFORCE_SHARE_WORKSPACE}" != "no" ]]; then
   echo "Workspace sharing enabled"
 
   STREAM="${BUILDKITE_BRANCH}"

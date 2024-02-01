@@ -105,9 +105,9 @@ Number of threads to use for parallel sync operations. High values may affect Pe
 
 #### `share_workspace` (optional, bool)
 
-Default: `no`
+Default: `yes` (shared).
 
-Allow multiple Buildkite pipelines to share each stream-specific client workspace.
+Allow multiple Buildkite pipelines to share each stream-specific client workspace. Set to `no` to disable this feature.
 
 Useful to avoid syncing duplicate data for large workspaces.
 
